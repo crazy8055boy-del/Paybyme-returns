@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>PAYBYMERETURNS – Daily Return Investment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bl:#1e3c72;--bl2:#2a5298;--g1:#11998e;--g2:#38ef7d;--r1:#e74c3c;--r2:#c0392b}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Arial,Helvetica,sans-serif}
+body{background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 100%);min-height:100vh;color:#fff}
+.container{max-width:1200px;margin:auto;padding:20px}
+.header{background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 100%);text-align:center;padding:25px 15px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.3);margin-bottom:30px}
+.header h1{font-size:2.4em;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+.header p{font-size:1.1em;margin-top:5px}
+.card{background:#fff;color:#222;border-radius:15px;padding:30px;box-shadow:0 15px 35px rgba(0,0,0,.2);margin-bottom:30px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;margin-bottom:6px;font-weight:bold;color:var(--bl)}
+.form-group input{width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:16px;transition:.3s}
+.form-group input:focus{outline:none;border-color:var(--bl);box-shadow:0 0 8px rgba(30,60,114,.25)}
+.btn{background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 100%);color:#fff;padding:12px 30px;border:none;border-radius:25px;font-size:16px;cursor:pointer;margin:8px 5px;box-shadow:0 4px 15px rgba(0,0,0,.2);transition:.3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.btn-success{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%)}
+.btn-danger{background:linear-gradient(135deg,var(--r1) 0%,var(--r2) 100%)}
+.nav-menu{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:25px}
+.nav-menu button{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);padding:14px 18px;border-radius:16px;cursor:pointer;font-weight:bold;min-width:110px;text-align:center;transition:.3s;backdrop-filter:blur(10px);font-size:15px;line-height:1.2}
+.nav-menu button:hover{background:rgba(255,255,255,.3);transform:translateY(-2px)}
+.nav-menu button span{font-size:26px;display:block;margin-bottom:4px}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+.product-card{background:#fff;border-radius:15px;padding:25px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:.3s;border:2px solid #f0f0f0}
+.product-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,.2);border-color:var(--bl)}
+.product-card img{width:170px;height:170px;object-fit:cover;border-radius:15px;margin-bottom:15px;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+.product-card h3{color:var(--bl);margin-bottom:10px;font-size:1.4em}
+.product-card .price{font-size:26px;color:var(--r1);font-weight:bold;margin:10px 0}
+.balance-section{background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 100%);color:#fff;padding:25px;border-radius:15px;margin-bottom:20px}
+.balance-item{display:flex;justify-content:space-between;margin:12px 0;padding:12px;background:rgba(255,255,255,.1);border-radius:10px}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.modal-content{background:#fff;margin:5% auto;padding:35px;border-radius:20px;width:90%;max-width:500px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.close{position:absolute;right:20px;top:20px;font-size:30px;color:#999;cursor:pointer}
+.close:hover{color:#000}
+.qr-code{text-align:center;margin:25px 0}
+.qr-code img{width:200px;height:200px;border:3px solid var(--bl);border-radius:15px}
+.whatsapp-btn{background:linear-gradient(135deg,#25d366 0%,#128c7e 100%);color:#fff;padding:14px 30px;border-radius:30px;font-size:18px;margin:8px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:.3s;box-shadow:0 5px 15px rgba(37,211,102,.4)}
+.whatsapp-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(37,211,102,.6)}
+.call-btn{background:linear-gradient(135deg,#ff4444 0%,#cc0000 100%);color:#fff;padding:14px 30px;border-radius:30px;font-size:18px;margin:8px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:.3s;box-shadow:0 5px 15px rgba(255,68,68,.4)}
+.call-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,68,68,.6)}
+.records-table{width:100%;border-collapse:collapse;margin-top:20px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+.records-table th,.records-table td{padding:12px;text-align:left}
+.records-table th{background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 100%);color:#fff}
+.records-table tr:nth-child(even){background:#f8f8f8}
+.referral-section{background:linear-gradient(135deg,#ffeaa7 0%,#fab1a0 100%);padding:25px;border-radius:15px;border:2px solid #fdcb6e;margin-bottom:20px}
+.referral-code{font-size:26px;font-weight:bold;color:var(--bl);background:#fff;padding:12px 20px;border-radius:10px;display:inline-block;margin:10px 0;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+.section-title{color:var(--bl);margin-bottom:15px;font-size:1.5em}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>💰 PAYBYMERETURNS</h1>
+    <p>Invest in Premium Products & Earn Daily Returns</p>
+  </div>
+
+  <!-- ===== AUTH AREA ===== -->
+  <div id="authCard" class="card">
+    <div id="regSection">
+      <h2 class="section-title">🆕 User Registration</h2>
+      <form id="regForm">
+        <div class="form-group"><label>👤 Full Name</label><input type="text" id="name" required></div>
+        <div class="form-group"><label>📱 Mobile Number</label><input type="tel" id="mobile" required></div>
+        <div class="form-group"><label>📧 Email</label><input type="email" id="email" required></div>
+        <div class="form-group"><label>🔑 Password</label><input type="password" id="pwd" required></div>
+        <div class="form-group"><label>🔒 Confirm Password</label><input type="password" id="cpwd" required></div>
+        <div class="form-group"><label>🎁 Invite Code (optional)</label><input type="text" id="invite"></div>
+        <button type="submit" class="btn">Register</button>
+        <button type="button" class="btn" onclick="showLogin()">Already Registered? Login</button>
+      </form>
+    </div>
+
+    <div id="loginSection" style="display:none">
+      <h2 class="section-title">🔐 Login</h2>
+      <form id="loginForm">
+        <div class="form-group"><label>📧 Email or User ID</label><input type="text" id="loginEmail" required></div>
+        <div class="form-group"><label>🔑 Password</label><input type="password" id="loginPwd" required></div>
+        <button type="submit" class="btn">Login</button>
+        <button type="button" class="btn" onclick="showReg()">⬅ Back to Register</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== USER DASH ===== -->
+  <div id="userDash" class="card" style="display:none">
+    <div class="nav-menu">
+      <button onclick="uSec('products')"><span>📱</span>Products</button><button onclick="uSec('balance')"><span>💰</span>Balance</button><button onclick="uSec('recharge')"><span>💳</span>Recharge</button><button onclick="uSec('withdraw')"><span>🏧</span>Withdraw</button><button onclick="uSec('records')"><span>📋</span>Records</button><button onclick="uSec('refer')"><span>🎁</span>Refer</button><button onclick="uSec('contact')"><span>📞</span>Contact</button><button onclick="logout()" class="btn-danger"><span>🚪</span>Logout</button>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div id="uProducts">
+      <h2 class="section-title">Available Products</h2>
+      <div class="products-grid">
+        <div class="product-card"><img src="https://i.postimg.cc/MTXRQ1sv/samsung_galaxy_s24_black_1_1_1200x1200.png" alt="S24"><h3>Samsung Galaxy S24</h3><div class="price">₹380</div><p>📅 Daily Return: ₹80<br>⏱️ 129 Days<br>💵 Total: ₹10,320</p><button class="btn btn-success" onclick="buyPlan('S24',380,80)">🛒 Purchase</button></div>
+        <div class="product-card"><img src="https://i.postimg.cc/N0X5TYTD/samsung_galaxy_s24_ultra_5g_titanium_m_m_FKOb_Lps.jpg" alt="S24Ultra"><h3>Samsung Galaxy S24 Ultra 5G</h3><div class="price">₹750</div><p>📅 Daily Return: ₹160<br>⏱️ 129 Days<br>💵 Total: ₹20,640</p><button class="btn btn-success" onclick="buyPlan('S24Ultra',750,160)">🛒 Purchase</button></div>
+        <div class="product-card"><img src="https://i.postimg.cc/vmnc9M93/61S5Fw_ZY1n_L.jpg" alt="ZFold6"><h3>Samsung Galaxy Z Fold 6</h3><div class="price">₹1140</div><p>📅 Daily Return: ₹240<br>⏱️ 129 Days<br>💵 Total: ₹30,960</p><button class="btn btn-success" onclick="buyPlan('ZFold6',1140,240)">🛒 Purchase</button></div>
+        <div class="product-card"><img src="https://i.postimg.cc/Ssj8McZ6/67c554d35f15baab71bb83de.jpg" alt="ZFold7"><h3>Samsung Galaxy Z Fold 7</h3><div class="price">₹1480</div><p>📅 Daily Return: ₹360<br>⏱️ 129 Days<br>💵 Total: ₹46,440</p><button class="btn btn-success" onclick="buyPlan('ZFold7',1480,360)">🛒 Purchase</button></div>
+      </div>
+    </div>
+
+    <!-- BALANCE -->
+    <div id="uBalance" style="display:none">
+      <h2 class="section-title">💰 Account Balance</h2>
+      <div class="balance-section">
+        <div class="balance-item"><span>🆔 User ID</span><span id="balUID"></span></div>
+        <div class="balance-item"><span>📱 Active Plan</span><span id="balPlan">None</span></div>
+        <div class="balance-item"><span>📅 Days Completed</span><span id="balDays">0</span></div>
+        <div class="balance-item"><span>💵 Total Earnings</span><span id="balEarn">₹0</span></div>
+        <div class="balance-item"><span>🏦 Current Balance</span><span id="balCur">₹0</span></div>
+      </div>
+      <button class="btn" onclick="uSec('withdraw')">💸 Withdraw Now</button>
+    </div>
+
+    <!-- RECHARGE -->
+    <div id="uRecharge" style="display:none">
+      <h2 class="section-title">💳 Recharge</h2>
+      <div style="text-align:center;margin:20px 0;">
+        <button class="btn" onclick="showRecharge(380)">₹380</button><button class="btn" onclick="showRecharge(750)">₹750</button><button class="btn" onclick="showRecharge(1140)">₹1140</button><button class="btn" onclick="showRecharge(1480)">₹1480</button>
+      </div>
+      <div class="qr-code"><p>Scan & Pay</p><img src="https://i.postimg.cc/Zngsvr6H/Screenshot-20251118-095417-slice.png" alt="QR"><p><strong>UPI:</strong> varunapostle@slc<br><strong>A/c Holder:</strong> Varun Yadav</p></div>
+    </div>
+
+    <!-- WITHDRAW -->
+    <div id="uWithdraw" style="display:none">
+      <h2 class="section-title">🏧 Withdraw Funds</h2>
+      <form id="withdrawForm">
+        <div class="form-group"><label>🏦 Account Holder Name</label><input type="text" id="wName" required></div>
+        <div class="form-group"><label>🔢 IFSC Code</label><input type="text" id="wIFSC" required></div>
+        <div class="form-group"><label>🏦 Account Number</label><input type="text" id="wAcc" required></div>
+        <div class="form-group"><label>✅ Confirm Account Number</label><input type="text" id="wAcc2" required></div>
+        <div class="form-group"><label>💰 Amount (min ₹110)</label><input type="number" id="wAmt" min="110" required></div>
+        <button type="submit" class="btn">📤 Submit</button>
+      </form>
+    </div>
+
+    <!-- RECORDS -->
+    <div id="uRecords" style="display:none">
+      <h2 class="section-title">📋 Transaction Records</h2>
+      <h3>⏳ Pending</h3>
+      <table class="records-table"><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody id="pendRec"><tr><td colspan="4" style="text-align:center;">No pending records</td></tr></tbody></table>
+      <h3 style="margin-top:20px;">✅ Approved</h3>
+      <table class="records-table"><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody id="apprRec"><tr><td colspan="4" style="text-align:center;">No approved records</td></tr></tbody></table>
+    </div>
+
+    <!-- REFER -->
+    <div id="uRefer" style="display:none">
+      <h2 class="section-title">🎁 Refer & Earn</h2>
+      <div class="referral-section">
+        <p>Share your code & earn 15% commission on every referral purchase!</p>
+        <div class="referral-code" id="refCode"></div>
+        <button class="btn" onclick="copyRef()">📋 Copy Code</button>
+        <p style="margin-top:15px;">💰 Referral Earnings: <strong id="refEarn">₹0</strong><br>👥 Total Referrals: <strong id="refCount">0</strong></p>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="uContact" style="display:none">
+      <h2 class="section-title">📞 Contact Us</h2>
+      <div style="text-align:center;padding:20px;">
+        <a class="whatsapp-btn" href="https://wa.me/919027765517" target="_blank">📱 WhatsApp: <span style="color:#fff">90277 65517</span></a>
+        <a class="call-btn" href="tel:9027765517">📞 Call: 90277 65517</a>
+        <a class="whatsapp-btn" href="https://wa.me/919027765517">💬 Open WhatsApp Chat</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN DASH ===== -->
+  <div id="adminDash" class="card" style="display:none">
+    <div class="nav-menu">
+      <button onclick="aSec('users')"><span>👥</span>Users</button><button onclick="aSec('recharge')"><span>💳</span>Recharge Req</button><button onclick="aSec('withdraw')"><span>🏧</span>Withdraw Req</button><button onclick="aSec('stat')"><span>📊</span>Statistics</button><button onclick="logout()" class="btn-danger"><span>🚪</span>Logout</button>
+    </div>
+
+    <div id="aUsers">
+      <h2 class="section-title">All Registered Users</h2>
+      <table class="records-table"><thead><tr><th>User-ID</th><th>Name</th><th>Mobile</th><th>Email</th><th>Balance</th><th>Active Plan</th><th>Reg Date</th></tr></thead><tbody id="tblUsers"></tbody></table>
+    </div>
+
+    <div id="aRecharge" style="display:none">
+      <h2 class="section-title">Recharge Requests</h2>
+      <table class="records-table"><thead><tr><th>User-ID</th><th>Amount</th><th>Transaction-ID</th><th>Date</th><th>Action</th></tr></thead><tbody id="tblRecharge"></tbody></table>
+    </div>
+
+    <div id="aWithdraw" style="display:none">
+      <h2 class="section-title">Withdrawal Requests</h2>
+      <table class="records-table"><thead><tr><th>User-ID</th><th>Amount</th><th>Bank Details</th><th>Date</th><th>Action</th></tr></thead><tbody id="tblWithdraw"></tbody></table>
+    </div>
+
+    <div id="aStat" style="display:none">
+      <h2 class="section-title">Platform Statistics</h2>
+      <div class="balance-section">
+        <div class="balance-item"><span>👥 Total Users</span><span id="stUsers">0</span></div>
+        <div class="balance-item"><span>💰 Total Recharges</span><span id="stRecharge">₹0</span></div>
+        <div class="balance-item"><span>🏧 Total Withdrawals</span><span id="stWithdraw">₹0</span></div>
+        <div class="balance-item"><span>🎁 Total Referral Commission</span><span id="stRef">₹0</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recharge Modal -->
+<div id="rechargeModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('rechargeModal')">&times;</span>
+    <h2 class="section-title">Recharge</h2>
+    <div class="qr-code"><p>Scan & Pay</p><img src="https://i.postimg.cc/JhVncv1M/Screenshot-20251118-095417-slice-(2).jpg" alt="QR"><p><strong>UPI:</strong> varunapostle@slc<br><strong>A/c Holder:</strong> Varun Yadav</p></div>
+    <form id="rechargeForm">
+      <div class="form-group"><label>🔢 Transaction ID</label><input type="text" id="rechargeTID" required></div>
+      <div class="form-group"><label>💰 Amount</label><input type="number" id="rechargeAmt" readonly></div>
+      <button type="submit" class="btn">✅ Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ===== DATA STORE ===== */
+const ADMIN={email:"varunapostle@gmail.com",pwd:"Varun@181105"};
+let allUsers=[],rechargeReq=[],withdrawReq=[],currentUser=null,currentUserData=null;
+
+/* ===== UTIL ===== */
+function gid(id){return document.getElementById(id)}
+function show(id){gid(id).style.display='block'}
+function hide(id){gid(id).style.display='none'}
+function randID(prefix){return prefix+Math.floor(10000+Math.random()*90000)}
+
+/* ===== AUTH ===== */
+function showLogin(){hide('regSection');show('loginSection')}
+function showReg(){hide('loginSection');show('regSection')}
+function logout(){
+  if(!confirm("Logout?"))return;
+  currentUser=null;currentUserData=null;
+  hide('userDash');hide('adminDash');show('authCard');showReg();
+}
+/* ---- Registration ---- */
+gid('regForm').onsubmit=function(e){
+  e.preventDefault();
+  if(gid('pwd').value!==gid('cpwd').value){alert("Passwords mismatch");return;}
+  let uid=randID("USER");
+  let user={
+    uid:uid,name:gid('name').value,mobile:gid('mobile').value,email:gid('email').value,
+    pwd:gid('pwd').value,balance:0,activePlan:null,totalEarn:0,refCode:randID("REF"),refEarn:0,refCount:0,regDate:new Date().toLocaleDateString()
+  };
+  // referral
+  let inv=gid('invite').value.trim();
+  if(inv){
+    let ref=allUsers.find(u=>u.refCode===inv);
+    if(ref){ref.refCount++;let com=Math.floor(380*0.15);ref.refEarn+=com;ref.balance+=com;}
+  }
+  allUsers.push(user);
+  alert("✅ Registered! Your ID: "+uid+"\nSave it for login.");
+  this.reset();showLogin();
+}
+/* ---- Login ---- */
+gid('loginForm').onsubmit=function(e){
+  e.preventDefault();
+  let id=gid('loginEmail').value.trim(),pwd=gid('loginPwd').value;
+  // Admin auto-login
+  if(id===ADMIN.email && pwd===ADMIN.pwd){openAdmin();return;}
+  // User login (email or uid)
+  let u=allUsers.find(x=>(x.email===id||x.uid===id)&&x.pwd===pwd);
+  if(u){currentUser=u.uid;currentUserData=u;openUser();}else{alert("❌ Invalid credentials");}
+}
+
+/* ===== USER DASH ===== */
+function openUser(){
+  hide('authCard');show('userDash');uSec('products');
+  gid('balUID').textContent=currentUserData.uid;
+  gid('refCode').textContent=currentUserData.refCode;
+  updateBalance();
+}
+function uSec(s){
+  ['uProducts','uBalance','uRecharge','uWithdraw','uRecords','uRefer','uContact'].forEach(x=>hide(x));
+  show('u'+s.charAt(0).toUpperCase()+s.slice(1));
+  if(s==='balance')updateBalance();
+  if(s==='refer'){gid('refEarn').textContent='₹'+currentUserData.refEarn;gid('refCount').textContent=currentUserData.refCount;}
+}
+function updateBalance(){
+  let d=currentUserData;
+  gid('balPlan').textContent=d.activePlan?d.activePlan.name:'None';
+  gid('balDays').textContent=d.activePlan?(129-d.activePlan.daysLeft)+' / 129':'0';
+  gid('balEarn').textContent='₹'+d.totalEarn;
+  gid('balCur').textContent='₹'+d.balance;
+}
+function buyPlan(name,price,daily){
+  if(currentUserData.balance<price){alert("Low balance! Recharge first.");return;}
+  if(!confirm(`Buy ${name} for ₹${price}?`))return;
+  currentUserData.balance-=price;
+  currentUserData.activePlan={name:name,price:price,daily:daily,daysLeft:129,earned:0};
+  startDaily();
+  updateBalance();alert("✅ Plan activated! Daily credit started.");
+}
+function startDaily(){
+  if(!currentUserData.activePlan)return;
+  setInterval(()=>{
+    let p=currentUserData.activePlan;
+    if(p&&p.daysLeft>0){
+      p.earned+=p.daily;currentUserData.totalEarn+=p.daily;currentUserData.balance+=p.daily;p.daysLeft--;
+      updateBalance();
+    }
+  },86400000);
+}
+function showRecharge(amt){
+  gid('rechargeAmt').value=amt;show('rechargeModal');
+}
+function closeModal(id){hide(id)}
+gid('rechargeForm').onsubmit=function(e){
+  e.preventDefault();
+  let amt=parseInt(gid('rechargeAmt').value),tid=gid('rechargeTID').value.trim();
+  rechargeReq.push({uid:currentUser,amount:amt,tid:tid,date:new Date().toLocaleDateString()});
+  addRec(true,'Recharge',amt,tid);alert("✅ Request sent! Admin will approve.");
+  closeModal('rechargeModal');this.reset();
+}
+gid('withdrawForm').onsubmit=function(e){
+  e.preventDefault();
+  let amt=parseInt(gid('wAmt').value);
+  if(amt<110){alert("Min ₹110");return;}
+  if(amt>currentUserData.balance){alert("Low balance");return;}
+  if(gid('wAcc').value!==gid('wAcc
